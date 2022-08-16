@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    do_packages: true
+    do_zsh: true
+    do_fonts: true
+    do_vscode: false
+    do_themes: true
+
+  roles:
+    - role: packages
+      when: do_packages|default(false) == true
+    - role: zsh
+      when: do_zsh|default(false) == true
+    - role: fonts
+      when: do_fonts|default(false) == true
+    - role: vscode
+      when: do_vscode|default(false) == true
+    - role: themes
+      when: do_themes|default(false) == true

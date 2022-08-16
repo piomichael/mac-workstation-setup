@@ -1,0 +1,35 @@
+---
+- name: Checking oh-my-zsh Folder
+  stat:
+    path: "{{ lookup('env', 'HOME') }}/.zshrc"
+  register: zsh_directory
+
+- name: Installing oh-my-zsh Framework
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  when: zsh_directory.stat.exists == false
+
+- name: Checking Powerlevel10k Theme
+  stat:
+    path: "{{ lookup('env','HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
+  register: powerlevel10k_directory
+
+- name: Installing Powerlevel10k Theme
+  git:
+    repo: https://gitee.com/romkatv/powerlevel10k.git
+    dest: "{{ lookup('env','HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
+  when: powerlevel10k_directory.stat.exists == false
+
+- name: Setting zsh Theme to Powerlevel10k
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env','HOME') }}/.zshrc"
+    regexp: ^ZSH_THEME=*
+    line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+
+- name: Create Powerlevel10k Configuration
+  ansible.builtin.copy:
+    src: p10k.zsh
+    dest: "{{ lookup('env','HOME') }}/.p10k.zsh"
+    owner: "{{ lookup('env','HOME') | basename | lower }}"
+    group: staff
+    mode: '0644'

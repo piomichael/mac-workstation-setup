@@ -1,0 +1,14 @@
+---
+- name: Installing Homebrew Packages
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - "{{ homebrew_packages }}"
+
+- name: Installing Homebrew Cask Packages
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - "{{ homebrew_cask_packages }}"

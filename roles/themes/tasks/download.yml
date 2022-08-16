@@ -1,0 +1,6 @@
+---
+- name: Downloading {{ theme.search_string }}
+  ansible.builtin.unarchive:
+    src: "{{ theme.url }}"
+    dest: "{{ themes_directory }}"
+    remote_src: yes

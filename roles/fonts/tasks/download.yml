@@ -1,0 +1,27 @@
+---
+- name: Checking {{ font.name }} in {{ font_directory }}
+  shell: "ls {{ font_directory }}/{{ font.name | replace(' ','') }}*"
+  register: is_font_found
+  ignore_errors: true
+  changed_when: false
+
+- name: Checking {{ font.name }} Font Latest Version
+  ansible.builtin.uri:
+    url: "{{ font.url }}"
+    return_content: yes
+  register: font_results
+  when: is_font_found.rc != 0
+
+- name: Getting {{ font.name }} Font Download URL
+  set_fact:
+    font_download_url: "{{ font_results.json.assets | json_query(query) | join('') }}"
+  vars:
+    query: '[?contains(name, `{{ font.search_string }}`)].browser_download_url'
+  when: is_font_found.rc != 0
+
+- name: Downloading {{ font.name }} Font
+  ansible.builtin.unarchive:
+    src: "{{ font_download_url }}"
+    dest: "{{ font_directory }}"
+    remote_src: yes
+  when: is_font_found.rc != 0

@@ -1,0 +1,42 @@
+---
+homebrew_packages:
+- jq
+- kubectx
+- kubernetes-cli
+- terraform 
+- vim
+- zsh-syntax-highlighting
+
+homebrew_cask_packages:
+- google-chrome
+- iterm2
+- visual-studio-code
+- pycharm
+
+visual_studio_code_extensions:
+- aaron-bond.better-comments
+- dracula-theme.theme-dracula
+- eamodio.gitlens
+- hashicorp.terraform
+- redhat.ansible
+- streetsidesoftware.code-spell-checker
+- vscode-icons-team.vscode-icons
+- yzhang.markdown-all-in-one
+
+# fonts
+font_directory: "{{ lookup('env', 'HOME') }}/Library/Fonts"
+fonts:
+- name: Hack
+  url: https://api.github.com/repos/source-foundry/Hack/releases/latest
+  search_string: ttf.zip
+- name: "Source Code Pro"
+  url: https://api.github.com/repos/adobe-fonts/source-code-pro/releases/latest
+  search_string: TTF
+- name: "Meslo"
+  url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
+  search_string: Meslo
+
+themes_directory: "{{ lookup('env', 'HOME') }}/Downloads/Themes"
+themes:
+- search_string: Dracula
+  url: https://github.com/dracula/iterm/archive/master.zip

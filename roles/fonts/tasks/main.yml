@@ -1,0 +1,12 @@
+---
+- name: Create User Fonts Directory
+  file:
+    path: "{{ font_directory }}"
+    state: directory
+
+- include_tasks:
+    file: download.yml
+  with_items:
+  - "{{ fonts }}"
+  loop_control:
+    loop_var: font

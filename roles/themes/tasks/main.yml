@@ -1,0 +1,12 @@
+---
+- name: Create Themes Directory
+  file:
+    path: "{{ themes_directory }}"
+    state: directory
+
+- include_tasks:
+    file: download.yml
+  with_items:
+  - "{{ themes }}"
+  loop_control:
+    loop_var: theme

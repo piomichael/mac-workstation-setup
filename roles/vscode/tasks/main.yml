@@ -1,0 +1,14 @@
+---
+- name: Getting Installed List of Visual Studio Code Extensions
+  shell: code --list-extensions
+  register: installed_visual_studio_code_extensions
+  changed_when: false
+
+- include_tasks:
+    file: extensions.yml
+  with_items:
+  - "{{ visual_studio_code_extensions }}"
+  loop_control:
+    loop_var: visual_studio_code_extension
+  when:
+  - visual_studio_code_extension not in installed_visual_studio_code_extensions.stdout_lines
